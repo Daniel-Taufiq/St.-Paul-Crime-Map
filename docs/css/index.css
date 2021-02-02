@@ -1,0 +1,179 @@
+html, body, #app{
+    width: 100vw;
+    height: 100vh;
+}
+#hide-map{
+    position: fixed;
+    background: #000000e0;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 2010;
+}
+#port-container{
+    position: fixed;
+    left: calc(100vw/2 - 123px);
+    top: 100px;
+    z-index: 2020;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+    border: 5px solid black;
+}
+#port-container > input{
+    width: 50px;
+}
+#notification{
+    position: fixed;
+    left: calc(100vw/2 - 140px);
+    top: 100px;
+    z-index: 2010;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+    border: 5px solid black;
+}
+#map{
+    width: 100vw;
+    height: 100vh;
+}
+
+#menu{
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #ffffff;
+    margin: 10px;
+    border-radius: 8px;
+    padding: 7px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+}
+
+#menu-title{
+    padding-bottom: 5px;
+}
+
+#menu-title > *{
+    display: inline;
+    vertical-align:middle
+}
+
+#collapse{
+    float: right;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 3px;
+}
+#collapse:hover{
+    background: #00000014;
+}
+
+#menu-body > div{
+    border-top: 1px solid #DADCE0;
+}
+
+#map-control{
+
+}
+
+#filters > div{
+    display: inline-block;
+    padding-right: 10px;
+    vertical-align: top;
+}
+#filter-button{
+    margin: 10px;
+    margin-left: 1px;
+    font-size: 0.75em;
+    background: #00000073;
+    outline: none; /* This should be covered under 'button'?? (look below) but okay? */
+    color: white;
+}
+#table{
+    font-size: 0.75em;
+}
+#table-container{
+    margin-top: 3px;
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+/*#loading{*/
+    /*position: fixed;*/
+    /*left: calc(100vw/2 - 100px);*/
+    /*top: calc(100vh/2 - 200px);*/
+    /*z-index: 20000;*/
+/*}*/
+
+
+.title{
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: #00000017;
+    text-indent: 5px;
+}
+.menu-child-container{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.filter-title{
+    text-decoration: underline;
+    display: block;
+}
+.checkboxes{
+    max-height: 150px;
+    overflow-y: scroll;
+    margin: 0;
+}
+.date-time-input{
+    width: 110px;
+}
+.legend{
+    color: black;
+    font-weight: bold;
+    padding: 5px;
+    margin-right: 6px;
+}
+.leaflet-popup-content{
+    margin: 5px;
+    margin-right: 18px;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+input[type="text"] {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #80808082;
+    padding-left: 2px;
+    outline: none;
+}
+button{
+    outline: none;
+}
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+td, th{
+    padding: 5px 0px;
+    text-indent: 5px;
+}
+tr{
+    cursor: pointer;
+    border-bottom: 1px solid #DADCE0;
+}
+tr:hover{
+    /*font-weight: 700;*/
+    text-shadow: 1px 0px #000000;
+}
