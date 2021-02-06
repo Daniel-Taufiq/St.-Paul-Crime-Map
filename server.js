@@ -16,8 +16,8 @@ let app = express();
 app.use(bodyParser.urlencoded({extended: true})); // allows us to get PUT request body
 app.use(cors());
 
-let port = 8000;
-//let port = parseInt(process.argv[2]);
+// let port = 8000; //parseInt(process.argv[2]);
+const PORT = process.env.PORT || 8000;
 
 // open stpaul_crime.sqlite3 database for reading and writing
 let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, err => {
@@ -33,6 +33,10 @@ let serializer = new EasyXml({
     rootElement: 'response',
     dateFormat: 'ISO',
     manifest: true
+});
+
+app.get('/', (req, res) => {
+    respondWithData(res, 'text/plain', 'App online')
 });
 
 // GET /codes
@@ -366,5 +370,5 @@ function insertNewIncident(body){
     db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?, ?, ?)", values);
 }
 
-console.log('Listening on port ' + port);
-let server = app.listen(port);
+console.log('Listening on port ' + PORT);
+let server = app.listen(PORT);
