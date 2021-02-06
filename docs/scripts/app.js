@@ -26,12 +26,13 @@ function init() {
             timeEnd: "",
             incidentFilter: [],
             neighborhoodFilter: [],
-            port: 8000,
-            portSupplied: false,
-            viewFilters: false,
+            // port: 8000,
+            // portSupplied: false,
+            // viewFilters: false,
             limit: 10000,
-            showNotification: false,
-            notification: ""
+            // showNotification: false,
+            // notification: ""
+            loading: true,
         },
         computed: {
             collapseImage: function(){
@@ -43,11 +44,7 @@ function init() {
         },
         methods: {
             toggleMenu: function(){
-                if(this.portSupplied) {
-                    this.showMenu = !this.showMenu;
-                } else {
-                    alert('Enter port!')
-                }
+                this.showMenu = !this.showMenu;
             },
             // When 'Go' is pressed
             changeLatLng: function() {
@@ -64,7 +61,7 @@ function init() {
                 return this.codes[code]
             },
             removeIncidentMarkers: function(){
-                app.incidentMarkers.forEach(marker => {
+                this.incidentMarkers.forEach(marker => {
                     marker.remove();
                 });
                 alert('Incident markers removed');
@@ -90,20 +87,27 @@ function init() {
                 }
                 // other (green)
                 return "color: #0e6500;"
-            }
+            },
+            // portSubmit: function(){
+            //     this.portSupplied = true;
+            //     getCodes();
+            //     getIncidents();
+            // }
         }
     });
 
     createLeafletMap();
     populateNeighborhoods();
     neighborhoodUpdate();
-}
-
-function portSubmit(){
-    app.portSupplied = true;
     getCodes();
     getIncidents();
 }
+
+// function portSubmit(){
+//     app.portSupplied = true;
+//     getCodes();
+//     getIncidents();
+// }
 
 let map;
 function createLeafletMap(){
@@ -144,24 +148,6 @@ function onMapChange(){
     updateNeighborhoodsOnMap();
 }
 
-function updateAddress(){
-    let apiUrl = 'https://nominatim.openstreetmap.org/reverse?format=json&lat='+app.latitude+'&lon='+app.longitude+'&zoom=18&addressdetails=1';
-    $.getJSON(apiUrl)
-        .then(data => {
-            let addressParts = [];
-            if(data.address.house_number) {
-                addressParts.push(data.address.house_number);
-            }
-            if(data.address.road){
-                addressParts.push(data.address.road);
-            }
-            if(addressParts.length > 0) {
-                app.address = addressParts.join(' ');
-            }else{
-                app.address = 'No address';
-            }
-        })
-}
 
 // Puts polygon around St. Paul on map
 function addBoundary(){
@@ -186,9 +172,9 @@ function addBoundary(){
     ], {fill: false, color: '#000'}).addTo(map);
 }
 
+let apiUrl = 'https://st-paul-crime-map.herokuapp.com';
 function getIncidents(){
-    let apiUrl = 'http://localhost:8000/incidents?';
-    //let apiUrl = 'http://cisc-dean.stthomas.edu:'+app.port+'/incidents?';
+    let incidentsApiUrl = apiUrl+'/incidents?';
     let filter = [];
     if(app.dateStart){
         let date = 'start_date='+app.dateStart;
@@ -216,12 +202,13 @@ function getIncidents(){
         filter.push('id='+app.neighborhoodFilter.join(','));
     }
     // add all filters together with '&'
-    apiUrl += filter.join('&');
-    console.log(apiUrl);
-    $.getJSON(apiUrl)
+    incidentsApiUrl += filter.join('&');
+    console.log(incidentsApiUrl);
+    $.getJSON(incidentsApiUrl)
         .then(data => {
             app.incidents = data;
             addCrimeAmounts();
+            app.loading = false;
         });
 }
 
@@ -242,13 +229,13 @@ function addCrimeAmounts(){
 }
 
 function getCodes(){
-    let apiUrl = 'http://localhost:8000/codes';
-    //let apiUrl = 'http://cisc-dean.stthomas.edu:'+app.port+'/codes';
-    $.getJSON(apiUrl)
+    let codesApiUrl = apiUrl+'/codes';
+    $.getJSON(codesApiUrl)
         .then(data => {
             for(let c in data){
                 app.codes[c.substring(1)] = data[c];
             }
+            app.loading = false;
         });
 }
 
@@ -357,17 +344,6 @@ function populateNeighborhoods(){
             count: 0
         }
     }
-}
-
-// Get the latitude and longitude for neighborhood using neighborhood name
-function getNeighborhoodLatLng(neighborhoodName){
-    // neighborhood = 'Greater East Side'
-    let country = 'United States',
-        state = 'Minnesota',
-        city = 'St. Paul';
-    let apiUrl = 'https://nominatim.openstreetmap.org/search?format=json&country='+country+'&state='+state+'&q='+neighborhoodName;
-    // return promise
-    return $.getJSON(apiUrl);
 }
 
 function updateNeighborhoodsOnMap() {
