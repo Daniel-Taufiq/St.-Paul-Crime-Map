@@ -22,10 +22,10 @@
     "url": "https://github.com/palu3492/CISC375-Project3-RESTful-Server.git"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "easyxml": "^2.0.1",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "sqlite3": "^4.2.0",
     "xml-js": "^1.6.11"
   }
